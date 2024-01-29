@@ -13,6 +13,7 @@ app.use('/api', api);
 
 app.use(express.static('public'));
 
+// Use index.js in routes directory to route pages
 app.use(routes)
 
 // GET Route for homepage
