@@ -5,5 +5,5 @@ const notes = express();
 
 // GET Route for notes page
 notes.get('/notes', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/pages/notes.html'))
+  res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
