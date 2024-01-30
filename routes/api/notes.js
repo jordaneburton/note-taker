@@ -10,9 +10,6 @@ notes.get('/', (req, res) => {
 });
 
 
-
-
-
 // POST Route for adding notes to data
 notes.post('/', (req, res) => {
     // Log that a POST request was received
