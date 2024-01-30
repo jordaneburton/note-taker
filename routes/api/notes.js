@@ -1,5 +1,7 @@
 const notes = require('express').Router();
 const { readFromFile, readAndAppend } = require('../../helpers/fsUtils');
+const uuid = require('../../helpers/uuid');
+
 
 // GET Route for notes data
 notes.get('/', (req, res) => {
@@ -23,6 +25,7 @@ notes.post('/', (req, res) => {
         const newNote = {
             title,
             text,
+            id: uuid()
         };
 
         readAndAppend(newNote, './db/db.json');
@@ -33,11 +36,35 @@ notes.post('/', (req, res) => {
         };
 
         // log response to server console
-        console.info(`${response.status} | note: ${response}`)
+        console.info(`${response.status} | note: ${response.body}`)
         res.json(response);
     } else {
         res.json('Error in posting new note');
     }
 });
+
+notes.delete('/:id', (req, res) => {
+    // Log that a GET request was received
+    console.info(`${req.method} request received for notes data`);
+
+    
+    // const noteData = JSON.parse(readFromFile('./db/db.json'));
+
+
+  // If all the required properties are present
+    if (req.params.id) {
+        // Variable for the new note we will save
+
+        console.info(`Note ID: ${req.params.id}`);
+        // readAndAppend(newNote, './db/db.json');
+
+        // log response to server console
+        // console.info(`${response.status} | note: ${response}`)
+        // res.json(response);
+    } else {
+        res.json('Error in deleting note');
+    }
+});
+
 
 module.exports = notes;
