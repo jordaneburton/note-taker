@@ -18,27 +18,25 @@ notes.post('/', (req, res) => {
     // Log that a POST request was received
     console.info(`${req.method} request received to submit notes`);  
     
-    const { noteTitle, noteText } = req.body;
+    const { title, text } = req.body;
 
   // If all the required properties are present
-    if (noteTitle && noteText) {
-        // Variable for the object we will save
+    if (title && text) {
+        // Variable for the new note we will save
         const newNote = {
             title,
             text,
-        // email,
-        // feedbackType,
-        // feedback,
-        // feedback_id: uuid(),
         };
 
-        // readAndAppend(newFeedback, './db/feedback.json');
+        readAndAppend(newNote, './db/db.json');
 
         const response = {
             status: 'success',
             body: newNote,
         };
 
+        // log response to server console
+        console.info(`${response.status} | note: ${response}`)
         res.json(response);
     } else {
         res.json('Error in posting new note');
