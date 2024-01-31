@@ -33,16 +33,23 @@ const readAndAppend = (content, file) => {
   });
 };
 
-// const readAndRemove = (content, file) => {
-//   fs.readFile(file, 'utf8', (err, data) => {
-//     if (err) {
-//       console.error(err);
-//     } else {
-//       const parsedData = JSON.parse(data);
-//       parsedData.push(content);
-//       writeToFile(file, parsedData);
-//     }
-//   });
-// };
+const readAndRemove = (contentID, file) => {
+  fs.readFile(file, 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      const parsedData = JSON.parse(data);
 
-module.exports = { readFromFile, writeToFile, readAndAppend };
+      // find note with matching note ID
+      for (let i = 0; i < parsedData.length; i++) {
+        if (parsedData[i].id === contentID) {
+          parsedData.splice(i, 1);
+          break;
+        }
+      };
+      writeToFile(file, parsedData);
+    }
+  });
+};
+
+module.exports = { readFromFile, writeToFile, readAndAppend, readAndRemove };

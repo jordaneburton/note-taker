@@ -1,9 +1,9 @@
 const notes = require('express').Router();
-const { readFromFile, readAndAppend } = require('../../helpers/fsUtils');
+const { readFromFile, readAndAppend, readAndRemove } = require('../../helpers/fsUtils');
 const uuid = require('../../helpers/uuid');
 
 
-// GET Route for notes data
+// GET Route for notes database
 notes.get('/', (req, res) => {
     // Log that a GET request was received
     console.info(`${req.method} request received for notes data`);
@@ -12,7 +12,7 @@ notes.get('/', (req, res) => {
 });
 
 
-// POST Route for adding notes to data
+// POST Route for adding notes to database
 notes.post('/', (req, res) => {
     // Log that a POST request was received
     console.info(`${req.method} request received to submit notes`);  
@@ -36,31 +36,29 @@ notes.post('/', (req, res) => {
         };
 
         // log response to server console
-        console.info(`${response.status} | note: ${response.body}`)
+        console.info(`${response.status} | note: ${newNote}`)
         res.json(response);
     } else {
         res.json('Error in posting new note');
     }
 });
 
+
+// DELETE Route for deleting notes from database
 notes.delete('/:id', (req, res) => {
     // Log that a GET request was received
     console.info(`${req.method} request received for notes data`);
 
-    
-    // const noteData = JSON.parse(readFromFile('./db/db.json'));
-
-
-  // If all the required properties are present
+    // If all the required properties are present
     if (req.params.id) {
-        // Variable for the new note we will save
+        readAndRemove(req.params.id, './db/db.json');
 
-        console.info(`Note ID: ${req.params.id}`);
-        // readAndAppend(newNote, './db/db.json');
-
+        const response = {
+            status: 'success',
+        };
         // log response to server console
-        // console.info(`${response.status} | note: ${response}`)
-        // res.json(response);
+        console.info(`${response.status} | ID of deleted note: ${req.params.id}`);
+        res.json(response);
     } else {
         res.json('Error in deleting note');
     }
